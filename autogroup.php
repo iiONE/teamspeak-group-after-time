@@ -20,19 +20,27 @@ function print_r2($val){
 //setup connection
 $ts3 = TeamSpeak3::factory("serverquery://" . $config["Username"] . ":" . $config["Password"] . "@" . $config["IP"] . ":" . $config["qPort"] . "/?server_port=" . $config["Port"] . "&nickname=" . $config["Nickname"] . "");
 
-//Specify Client using UID, will be automatic later on
-$client = $ts3->clientGetByUid("GV1o/OG88OpRoTwTq4HOA3BCEic=");
+// query clientlist from virtual server
+$arr_clientList = $ts3->clientList();
+
+// walk through list of clients
+foreach($arr_clientList as $client)
+{
+	if($client["client_type"] == 1) continue;
+	echo $client . " is using " . $client["client_platform"] . "<br />\n";
+
 
 //fetch first connection of specified client ^ 
 $client_created = date('Y-m-d h:i a',$client->client_created);
 
-echo $the_time." now </br></br>";
-echo $client_created . " client created <br>";
+echo $the_time.' now </br></br>';
+echo $client_created . ' client created <br><br>';
 
 $to_time = strtotime($the_time);
 $from_time = strtotime($client_created);
-echo round(abs($to_time - $from_time) / 86400,2). " days";
-
+echo 'First connect ' . round(abs($to_time - $from_time) / 86400,2). ' days ago';
+echo '<br><br><br>';
+}
 
 /*
 //Only gives difference in 24 hours
