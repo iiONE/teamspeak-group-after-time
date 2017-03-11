@@ -9,7 +9,7 @@ date_default_timezone_set($config['timezone']);
 
 //current time
 $the_time = date('Y-m-d h:i a');
-echo $the_time." </br></br>";
+
 
 //Super cool print_r function for better display in browser
 function print_r2($val){
@@ -25,8 +25,17 @@ $client = $ts3->clientGetByUid("GV1o/OG88OpRoTwTq4HOA3BCEic=");
 
 //fetch first connection of specified client ^ 
 $client_created = date('Y-m-d h:i a',$client->client_created);
-echo $client_created . "<br>";
 
+echo $the_time." now </br></br>";
+echo $client_created . " client created <br>";
+
+$to_time = strtotime($the_time);
+$from_time = strtotime($client_created);
+echo round(abs($to_time - $from_time) / 86400,2). " days";
+
+
+/*
+//Only gives difference in 24 hours
 //math
 $datetime1 = new DateTime($the_time);
 $datetime2 = new DateTime($client_created);
@@ -36,6 +45,6 @@ $minutes= $interval->format('%i');
 
 echo $minutes . "<br>";
 echo $hours;
-
+*/
 print_r2($client);
 ?>
