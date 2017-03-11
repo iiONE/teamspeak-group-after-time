@@ -2,6 +2,7 @@
 require_once("lib/TeamSpeak3/TeamSpeak3.php");
 require_once("config/config.php");
 
+//remove this, only for my testing
 require_once("../config/config.php");
 
 //goes into config later
