@@ -3,7 +3,7 @@ require_once("lib/TeamSpeak3/TeamSpeak3.php");
 require_once("config/config.php");
 
 //goes into config later
-date_default_timezone_set('Europe/Berlin');
+date_default_timezone_set($config['timezone']);
 
 //current time
 $the_time = date('Y-m-d h:i a');
