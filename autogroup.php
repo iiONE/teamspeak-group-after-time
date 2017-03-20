@@ -1,6 +1,7 @@
 <?php
 require_once("lib/TeamSpeak3/TeamSpeak3.php");
 require_once("config/config.php");
+require_once("config/groups.php");
 
 //remove this, only for my testing
 require_once("../config/config.php");
@@ -12,12 +13,14 @@ date_default_timezone_set($config['timezone']);
 $the_time = date('Y-m-d h:i a');
 
 
-//Super cool print_r function for better display in browser
-function print_r2($val){
-        echo '<pre>';
-        print_r($val);
-        echo  '</pre>';
+//Super cool print_r function for better display in browser and testing
+function print_r2($val)
+{
+    echo '<pre>';
+    print_r($val);
+    echo  '</pre>';
 }
+
 //setup connection
 $ts3 = TeamSpeak3::factory("serverquery://" . $config["Username"] . ":" . $config["Password"] . "@" . $config["IP"] . ":" . $config["qPort"] . "/?server_port=" . $config["Port"] . "&nickname=" . $config["Nickname"] . "");
 
@@ -25,22 +28,24 @@ $ts3 = TeamSpeak3::factory("serverquery://" . $config["Username"] . ":" . $confi
 $arr_clientList = $ts3->clientList();
 
 // walk through list of clients
-foreach($arr_clientList as $client)
-{
-	if($client["client_type"] == 1) continue;
-	echo $client . " is using " . $client["client_platform"] . "<br />\n";
+foreach ($arr_clientList as $client) {
+    if ($client["client_type"] == 1) {
+        continue;
+    }
+    echo $client . " is using " . $client["client_platform"] . "<br />\n";
 
 
-//fetch first connection of specified client ^ 
-$client_created = date('Y-m-d h:i a',$client->client_created);
+//fetch first connection of specified client ^
+$client_created = date('Y-m-d h:i a', $client->client_created);
 
-echo $the_time.' now </br></br>';
-echo $client_created . ' client created <br><br>';
+    echo $the_time.' now </br></br>';
+    echo $client_created . ' client created <br><br>';
 
-$to_time = strtotime($the_time);
-$from_time = strtotime($client_created);
-echo 'First connect ' . round(abs($to_time - $from_time) / 86400,2). ' days ago';
-echo '<br><br><br>';
+    $to_time = strtotime($the_time);
+    $from_time = strtotime($client_created);
+    echo 'First connect ' . round(abs($to_time - $from_time) / 86400, 2). ' days ago';
+    echo 'First connect ' . round(abs($to_time - $from_time) / 3600, 2). ' hours';
+    echo '<br><br><br>';
 }
 
 /*
@@ -56,4 +61,3 @@ echo $minutes . "<br>";
 echo $hours;
 */
 print_r2($client);
-?>
